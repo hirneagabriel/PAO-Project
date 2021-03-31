@@ -19,6 +19,6 @@ catre alt meniu unde va putea alege intre mai multe interogari:
 - Vizualizeaza autorii
 - Vizualizeaza sectiunile
 - Delogare
-In total proiectul contine 12 interogari
+###### In total proiectul contine 12 interogari
 
 
