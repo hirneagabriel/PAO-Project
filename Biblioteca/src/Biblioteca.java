@@ -8,13 +8,16 @@ public class Biblioteca {
     private Map<String, Autor> autori = new Hashtable<String, Autor>();
     private Map<String, Editura> editura = new Hashtable<String, Editura>();
     private String usernameLog;
-
+    private CitireFisiere citireFisiere;
+    private Audit audit;
     private Scanner scanner = new Scanner(System.in);
 
     private Biblioteca() {
         System.out.println("Citind construim o lume mai buna!");
         Admin a = new Admin("admin", "admin", "admin");
         admini.put("admin", a);
+        audit = Audit.getInstance("Audit.csv");
+        citireFisiere = CitireFisiere.getInstance();
     }
 
     public static Biblioteca getInstance() {
@@ -25,6 +28,7 @@ public class Biblioteca {
     }
 
     public void inregistrare() {
+        audit.scrieAudit();
         System.out.println("Inregistrare client");
         System.out.println("Introduceti username");
         String username = scanner.next();
@@ -72,6 +76,7 @@ public class Biblioteca {
     }
 
     public void logare() {
+        audit.scrieAudit();
         if (usernameLog != null && !usernameLog.isEmpty()) {
             System.out.println("Deja sunteti logat");
             return;
@@ -120,6 +125,7 @@ public class Biblioteca {
     }
 
     public void logout() {
+        audit.scrieAudit();
         if (usernameLog != null && !usernameLog.isEmpty()) {
             System.out.println("Delogare");
         }
@@ -128,6 +134,7 @@ public class Biblioteca {
     }
 
     public void AdaugaSectiune() {
+        audit.scrieAudit();
         if (usernameLog != null && !usernameLog.isEmpty()) {
             if (admini.containsKey(usernameLog)) {
                 System.out.println("Nume Sectiune:");
@@ -141,7 +148,7 @@ public class Biblioteca {
                     meniu2();
                 }
             } else {
-                System.out.println("Nu aveti aceste drepte");
+                System.out.println("Nu aveti aceste drepturi!");
             }
         } else {
             System.out.println("Nu sunteti logat!");
@@ -150,6 +157,7 @@ public class Biblioteca {
     }
 
     public  void AdaugaAutor(){
+        audit.scrieAudit();
         if (usernameLog != null && !usernameLog.isEmpty()) {
             if (admini.containsKey(usernameLog)) {
                 System.out.println("Nume Autor:");
@@ -166,7 +174,7 @@ public class Biblioteca {
                     meniu2();
                 }
             } else {
-                System.out.println("Nu aveti aceste drepte");
+                System.out.println("Nu aveti aceste drepturi");
             }
         } else {
             System.out.println("Nu sunteti logat!");
@@ -175,6 +183,7 @@ public class Biblioteca {
     }
 
     public  void AdaugaEditura(){
+        audit.scrieAudit();
         if (usernameLog != null && !usernameLog.isEmpty()) {
             if (admini.containsKey(usernameLog)) {
                 System.out.println("Nume Editura:");
@@ -191,7 +200,7 @@ public class Biblioteca {
                     meniu2();
                 }
             } else {
-                System.out.println("Nu aveti aceste drepte");
+                System.out.println("Nu aveti aceste drepturi");
             }
         } else {
             System.out.println("Nu sunteti logat!");
@@ -200,38 +209,40 @@ public class Biblioteca {
     }
 
     public void adaugaDate() {
-        Autor a1 = new Autor("Ion Creanga", "Roman");
-        Autor a2 = new Autor("I. L. Caragiale", "Roman");
-        Autor a3 = new Autor("Jules Vernes", "Francez");
-        Autor a4 = new Autor("Agatha Christie", "Englez");
-        autori.put(a1.getNume(), a1);
-        autori.put(a2.getNume(), a2);
-        autori.put(a3.getNume(), a3);
-        autori.put(a4.getNume(), a4);
-
+//        Autor a1 = new Autor("Ion Creanga", "Roman");
+//        Autor a2 = new Autor("I. L. Caragiale", "Roman");
+//        Autor a3 = new Autor("Jules Vernes", "Francez");
+//        Autor a4 = new Autor("Agatha Christie", "Englez");
+//        autori.put(a1.getNume(), a1);
+//        autori.put(a2.getNume(), a2);
+//        autori.put(a3.getNume(), a3);
+//        autori.put(a4.getNume(), a4);
+        autori.putAll(citireFisiere.citesteAutori());
+        editura.putAll(citireFisiere.citesteEditura());
+        sectiuni.addAll(citireFisiere.citesteSectiuni());
         Student stud = new Student("Ion", "master", "parola");
         clienti.put(stud.username, stud);
-        Editura e1 = new Editura("Humanitas", "adresa...");
-        Editura e2 = new Editura("Aramis", "adresa...");
-        editura.put(e1.getNume(), e1);
-        editura.put(e2.getNume(), e2);
-        Carte c1 = new Carte("2000 de leghe sub mari", e1);
-        c1.addAutor(a3);
-        Carte c2 = new Carte("Insula misterioasa", e1);
-        c2.addAutor(a3);
-        Sectiune s1 = new Sectiune("Aventura");
-        s1.addCarte(c1);
-        s1.addCarte(c2);
-        Sectiune s2 = new Sectiune("Mister");
-        Sectiune s3 = new Sectiune("Comedie");
-        sectiuni.add(s1);
-        sectiuni.add(s2);
-        sectiuni.add(s3);
+//        Editura e1 = new Editura("Humanitas", "adresa...");
+//        Editura e2 = new Editura("Aramis", "adresa...");
+//        editura.putAll(citireFisiere.citesteEditura());
+//        Carte c1 = new Carte("2000 de leghe sub mari", e1);
+//        c1.addAutor(a3);
+//        Carte c2 = new Carte("Insula misterioasa", e1);
+//        c2.addAutor(a3);
+//        Sectiune s1 = new Sectiune("Aventura");
+//        s1.addCarte(c1);
+//        s1.addCarte(c2);
+//        Sectiune s2 = new Sectiune("Mister");
+//        Sectiune s3 = new Sectiune("Comedie");
+//        sectiuni.add(s1);
+//        sectiuni.add(s2);
+//        sectiuni.add(s3);
 
 
     }
 
     public void AdaugaCarte() {
+        audit.scrieAudit();
         if (usernameLog != null && !usernameLog.isEmpty()) {
             if (admini.containsKey(usernameLog)) {
                 System.out.println("Nume carte:");
@@ -294,6 +305,7 @@ public class Biblioteca {
     }
 
     public void afisareSec1(){
+        audit.scrieAudit();
         System.out.println("Sectiuni:");
         for (Sectiune sectiune : sectiuni) {
             System.out.println(sectiune.getNume());
@@ -301,7 +313,7 @@ public class Biblioteca {
         }
     }
     public void afisareSectiuni() {
-
+        audit.scrieAudit();
         System.out.println("Sectiuni:");
         for (Sectiune sectiune : sectiuni) {
             System.out.println(sectiune.getNume());
@@ -315,6 +327,7 @@ public class Biblioteca {
     }
 
     public void afiseazaAutor(){
+        audit.scrieAudit();
         System.out.println("Autori:");
         Iterator<String> itr = autori.keySet().iterator();
         while(itr.hasNext()){
@@ -328,6 +341,7 @@ public class Biblioteca {
     }
 
     public void afiseazaEdituri(){
+        audit.scrieAudit();
         System.out.println("Edituri:");
         Iterator<String> itr = editura.keySet().iterator();
         while(itr.hasNext()){
@@ -449,6 +463,7 @@ public class Biblioteca {
     }
 
     public void InchiriereCarte() {
+        audit.scrieAudit();
         if (usernameLog != null && !usernameLog.isEmpty()) {
             if (clienti.containsKey(usernameLog)) {
                 int ok = 1;
@@ -489,6 +504,7 @@ public class Biblioteca {
     }
 
     public void afiseazaIstoricImprumuturi() {
+        audit.scrieAudit();
         if (usernameLog != null && !usernameLog.isEmpty()) {
             if (clienti.containsKey(usernameLog)) {
                 System.out.println(clienti.get(usernameLog).Imprumuturi);
