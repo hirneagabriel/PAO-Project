@@ -1,3 +1,7 @@
+package Metode;
+
+import Modele.Carte;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,12 +1,15 @@
+package Modele;
+
 import java.util.ArrayList;
 import java.util.List;
+import Metode.*;
 
 public class Client {
     protected Integer id_client;
     protected String nume;
     protected String username;
     protected String parola;
-    protected  ImprumutaCarte ImprumutActual;
+    protected ImprumutaCarte ImprumutActual;
     protected List<ImprumutaCarte> Imprumuturi;
 
     private static Integer idCounter = 0;

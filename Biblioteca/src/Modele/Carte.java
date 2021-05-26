@@ -1,3 +1,5 @@
+package Modele;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,17 @@ public class Carte {
         this.editura = editura;
         this.autori = new ArrayList<Autor>();
         this.id_carte = idCounter;
+    }
+    public Carte(String denumire, Editura editura, Integer id) {
+        this.denumire = denumire;
+        this.editura = editura;
+        this.autori = new ArrayList<Autor>();
+        this.id_carte = id;
 
+    }
+
+    public Integer getId_carte() {
+        return id_carte;
     }
 
     public void addAutor(Autor autor) {

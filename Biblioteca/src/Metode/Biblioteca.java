@@ -1,3 +1,11 @@
+package Metode;
+
+import Modele.*;
+import bd.Autor_bd;
+import bd.Carte_bd;
+import bd.Editura_bd;
+import bd.Sectiune_bd;
+
 import java.util.*;
 
 public class Biblioteca {
@@ -11,6 +19,9 @@ public class Biblioteca {
     private CitireFisiere citireFisiere;
     private Audit audit;
     private Scanner scanner = new Scanner(System.in);
+    private Editura_bd editura_bd = new Editura_bd();
+    private Sectiune_bd sectiune_bd= new Sectiune_bd();
+    private Autor_bd autor_bd = new Autor_bd();
 
     private Biblioteca() {
         System.out.println("Citind construim o lume mai buna!");
@@ -144,6 +155,7 @@ public class Biblioteca {
                     System.out.println("Sectiunea deja exista");
                 } else {
                     sectiuni.add(s);
+                    sectiune_bd.insert(s);
                     System.out.println("Sectiune adaugata");
                     meniu2();
                 }
@@ -170,6 +182,7 @@ public class Biblioteca {
                     System.out.println("Autorul deja exista");
                 } else {
                     autori.put(nume,a);
+                    autor_bd.insert(a);
                     System.out.println("Autor adaugat");
                     meniu2();
                 }
@@ -196,6 +209,7 @@ public class Biblioteca {
                     System.out.println("Editura deja exista");
                 } else {
                     editura.put(nume,a);
+                    editura_bd.insert(a);
                     System.out.println("Editura adaugata");
                     meniu2();
                 }
@@ -217,11 +231,21 @@ public class Biblioteca {
 //        autori.put(a2.getNume(), a2);
 //        autori.put(a3.getNume(), a3);
 //        autori.put(a4.getNume(), a4);
-        autori.putAll(citireFisiere.citesteAutori());
-        editura.putAll(citireFisiere.citesteEditura());
-        sectiuni.addAll(citireFisiere.citesteSectiuni());
+
+        autori.putAll(autor_bd.citesteAutori());
+        //autori.putAll(citireFisiere.citesteAutori());
+
+
+        //editura_bd.deleteEditura(4);
+        //editura_bd.updateNume("editura","nouaeditura");
+        //editura_bd.insert("editura","strada lui peste");
+        //editura.putAll(citireFisiere.citesteEditura());
+        editura.putAll(editura_bd.citesteEdituri());
+
+        sectiuni.addAll(sectiune_bd.citesteSectiuni());
+        //sectiuni.addAll(citireFisiere.citesteSectiuni());
         Student stud = new Student("Ion", "master", "parola");
-        clienti.put(stud.username, stud);
+        clienti.put(stud.getUsername(), stud);
 //        Editura e1 = new Editura("Humanitas", "adresa...");
 //        Editura e2 = new Editura("Aramis", "adresa...");
 //        editura.putAll(citireFisiere.citesteEditura());
@@ -253,6 +277,7 @@ public class Biblioteca {
                 String e = scanner.next();
                 if (editura.containsKey(e)) {
                     Carte c = new Carte(nume, editura.get(e));
+                    List<Integer> autorId = new Vector<Integer>();
                     int ok = 1;
                     while (ok == 1) {
                         System.out.println("Adaugati autori:");
@@ -260,7 +285,7 @@ public class Biblioteca {
                         String numeAutori = scanner.nextLine();
                         if (autori.containsKey(numeAutori)) {
                             c.addAutor(autori.get(numeAutori));
-
+                            autorId.add(autori.get(numeAutori).getId_autor());
                             System.out.println("Doriti sa adaugati si alti autori?A/F");
                             String verificare = scanner.next();
                             if (!Objects.equals(verificare, "A")) {
@@ -268,6 +293,7 @@ public class Biblioteca {
                             }
                         } else {
                             System.out.println("Autorul nu exista");
+                            autorId.clear();
                             AdaugaCarte();
                             return;
                         }
@@ -276,8 +302,15 @@ public class Biblioteca {
                     String numeSectiune = scanner.next();
                     ok = 1;
                     for (Sectiune sectiune : sectiuni) {
-                        if (Objects.equals(sectiune.nume, numeSectiune)) {
+                        if (Objects.equals(sectiune.getNume(), numeSectiune)) {
+                            
                             sectiune.addCarte(c);
+                            Integer id_carte = c.getId_carte();
+                            Integer id_sectiune = sectiune.getId_sectiune();
+                            Carte_bd carte_bd = new Carte_bd();
+                            carte_bd.insert(c,id_sectiune);
+                            carte_bd.insertA(autorId,id_carte);
+                            
                             System.out.println("Carte adaugata");
                             ok = 0;
                             meniu2();
@@ -507,7 +540,7 @@ public class Biblioteca {
         audit.scrieAudit();
         if (usernameLog != null && !usernameLog.isEmpty()) {
             if (clienti.containsKey(usernameLog)) {
-                System.out.println(clienti.get(usernameLog).Imprumuturi);
+                System.out.println(clienti.get(usernameLog).getImprumuturi());
                 meniu3();
             }
         }

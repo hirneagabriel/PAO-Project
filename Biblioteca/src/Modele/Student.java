@@ -1,3 +1,6 @@
+package Modele;
+import Metode.ImprumutaCarte;
+
 public class Student extends Client {
     private  double discount = 0.4;
 

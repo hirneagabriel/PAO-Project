@@ -1,4 +1,4 @@
-import java.util.List;
+package Modele;
 
 public class Editura {
     protected Integer id_editura;
@@ -16,6 +16,12 @@ public class Editura {
         this.nume = nume;
         this.id_editura = idCounter;
     }
+    public Editura(String nume, String adresa, Integer id) {
+        this.adresa = adresa;
+        this.nume = nume;
+        this.id_editura = id;
+    }
+
 
     public String getNume() {
         return nume;

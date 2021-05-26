@@ -1,3 +1,6 @@
+import Metode.Biblioteca;
+import bd.Editura_bd;
+
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,7 @@ public class Main {
         clienti.put(s.username, s);
         if(clienti.get(s.username) instanceof Student){
             System.out.println("student");*/
+
         Biblioteca biblioteca = Biblioteca.getInstance();
         biblioteca.adaugaDate();
         biblioteca.meniu1();

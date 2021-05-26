@@ -1,3 +1,5 @@
+package Modele;
+
 public class Admin {
     private Integer id_admin;
     private String username;

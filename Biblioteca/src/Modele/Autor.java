@@ -1,4 +1,4 @@
-
+package Modele;
 
 public class Autor {
     protected Integer id_autor;
@@ -15,6 +15,16 @@ public class Autor {
         this.nume = nume;
         this.nationalitate = nationalitate;
         this.id_autor = idCounter;
+    }
+
+    public Integer getId_autor() {
+        return id_autor;
+    }
+
+    public Autor(String nume, String nationalitate, Integer id ){
+        this.nume = nume;
+        this.nationalitate = nationalitate;
+        this.id_autor = id;
     }
 
     public String getNume() {
